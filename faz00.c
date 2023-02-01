@@ -361,29 +361,12 @@ int main() {
             c2[0] = 1;
         }
 
-        // click on tas
-        if (GetMouseX() < 431 && GetMouseX() > 368 &&GetMouseY() < 90 && GetMouseY() > 27 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            raft = 0;
-            /*if (tas() == -3) {
-                TAS = tas();
-            }
-            if (tas() == -2) {
-                TAS = tas();
-            }
-            if (tas() == -1) {
-                TAS = tas();
-            }
-            if (tas() == 1) {
-                TAS = tas();
-            }
-            if (tas() == 2) {
-                TAS = tas();
-            }
-            if (tas() == 3) {
-                TAS = tas();
-            }*/
-            TAS = tas();
-            turn *= -1;
+        //card3
+        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() > 17 &&GetMouseY() < 430 && GetMouseY() > 334 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c1[2] = 1;
+        }
+        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 430 && GetMouseY() > 334 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c2[2] = 1;
         }
 
         //kodom mohre
