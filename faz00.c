@@ -19,6 +19,8 @@ int y_tas = 29;
 
 int TAS = 0, turn = -1;
 
+int Fcard[4], Scard[4];
+
 int tas() {
     int arr[6], T;
     for (int i = 0; i < 3; i++) {
@@ -222,6 +224,25 @@ void checktale(int x, int k) {
     }
 }
 
+void set_card(int poss, int who) {
+    if (poss != 9 && poss != 17 && poss != 25 && poss != 52 && poss != 65 && poss != 73) {
+        return;
+    }
+    int T;
+    srand(time(0));
+    T = rand() % 4;
+    if (who == 1) {
+        Fcard[T]++;
+    }
+    else {
+        Scard[T]++;
+    }
+}
+
+void checkcard() {
+
+}
+
 int main() {
     const int windowwidth = 800;
     const int windowheight = 600;
@@ -277,6 +298,7 @@ int main() {
             if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
                 first1 += TAS;
                 checktale(first1, 1);
+                set_card(first1, 1);
                 xfirst1 = pix[first1];
                 yfisrt1 = piy[first1];
                 raft = 1;
@@ -284,6 +306,7 @@ int main() {
             else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
                 first2 += TAS;
                 checktale(first2, 2);
+                set_card(first2, 1);
                 xfirst2 = pix[first2];
                 yfisrt2 = piy[first2];
                 raft = 1;
@@ -293,6 +316,7 @@ int main() {
             if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
                 second1 += TAS;
                 checktale(second1, 3);
+                set_card(second1, 2);
                 xsecond1 = pix[second1];
                 ysecond1 = piy[second1];
                 raft = 1;
@@ -300,6 +324,7 @@ int main() {
             else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
                 second2 += TAS;
                 checktale(second2, 4);
+                set_card(second2, 2);
                 xsecond2 = pix[second2];
                 ysecond2 = piy[second2];
                 raft = 1;
@@ -339,6 +364,17 @@ int main() {
             DrawText("which on?", 540, 27, 20, BLACK);
             DrawText("press A or B", 540, 48, 20, BLACK);
         }
+
+        // kartha
+        DrawText(TextFormat("%i", Fcard[0]), 24, 119, 40, WHITE);
+        DrawText(TextFormat("%i", Fcard[1]), 24, 230, 40, WHITE);
+        DrawText(TextFormat("%i", Fcard[2]), 24, 342, 40, WHITE);
+        DrawText(TextFormat("%i", Fcard[3]), 24, 453, 40, WHITE);
+
+        DrawText(TextFormat("%i", Scard[0]), 641, 119, 40, WHITE);
+        DrawText(TextFormat("%i", Scard[1]), 641, 230, 40, WHITE);
+        DrawText(TextFormat("%i", Scard[2]), 641, 342, 40, WHITE);
+        DrawText(TextFormat("%i", Scard[3]), 641, 453, 40, WHITE);
 
         // premium
         DrawText("PREMIUM", 375, 567, 10, GRAY);
