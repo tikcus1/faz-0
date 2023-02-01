@@ -396,7 +396,7 @@ int main() {
         DrawTexture(siah2, xsecond2, ysecond2, WHITE);
 
         //nobat
-        if (turn == -1) {
+        if (turn == 1) {
             DrawText("WHITE :", 81, 48, 30, MAROON);
         }
         else {
