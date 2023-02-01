@@ -19,7 +19,7 @@ int y_tas = 29;
 
 int TAS = 0, turn = -1;
 
-int Fcard[4] /*= {3, 3, 3, 3}*/, Scard[4] /*= {3, 3, 3, 3}*/;
+int Fcard[4] = {3, 3, 3, 3}, Scard[4] = {3, 3, 3, 3};
 bool c1[4], c2[4], mahdud[4];
 
 bool isp = 0;
@@ -315,11 +315,9 @@ int main() {
     const int windowheight = 600;
     
     InitWindow(windowwidth, windowheight, "my game");
-    InitAudioDevice();
     SetTargetFPS(60);
     
     Texture2D board = LoadTexture("resources/final_board.png"); 
-    Sound amir = LoadSound("resources/amir.wav");
 
     Texture2D sefid1 = LoadTexture("resources/sefid1.png"); 
     Texture2D sefid2 = LoadTexture("resources/sefid2.png"); 
@@ -328,12 +326,7 @@ int main() {
     set_pos();
     bool raft = 1;
     while(!WindowShouldClose()) {
-        //win
-        /*if (first1 == 41 || first2 == 41 || second1 == 41 || second2 == 41) {
-            PlaySound(amir);
-        }*/
-
-
+        
         // premium
         if (GetMouseX() < 449 && GetMouseX() > 355 &&GetMouseY() < 580 && GetMouseY() > 550 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
             if (!isp) {
@@ -358,36 +351,6 @@ int main() {
         }
         if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 320 && GetMouseY() > 224 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
             c2[1] = 1;
-        }
-
-        //card2
-        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() > 17 &&GetMouseY() < 209 && GetMouseY() > 114 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c1[0] = 1;
-        }
-        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 209 && GetMouseY() > 114 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c2[0] = 1;
-        }
-
-        //card3
-        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() > 17 &&GetMouseY() < 430 && GetMouseY() > 334 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c1[2] = 1;
-        }
-        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 430 && GetMouseY() > 334 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c2[2] = 1;
-        }
-        
-        //card4
-        if (/*turn == 1 &&*/ GetMouseX() < 88 && GetMouseX() > 17 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c1[3] = 1;
-        }
-        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() >= 88 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c1[3] = 2;
-        }
-        if (/*turn == -1 &&*/ GetMouseX() < 710 && GetMouseX() > 635 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c2[3] = 1;
-        }
-        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() >= 710 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            c2[3] = 2;
         }
 
         // click on tas
@@ -417,7 +380,7 @@ int main() {
 
         //kodom mohre
         if (turn == 1 && !raft) {
-            if (!mahdud[0] && ((IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10)) {
+            if (!mahdud[0] && (IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10) {
                 first1 += TAS;
                 again(1);
                 first1 += check_zarib(1);
@@ -426,11 +389,8 @@ int main() {
                 xfirst1 = pix[first1];
                 yfisrt1 = piy[first1];
                 raft = 1;
-                if (first1 == 41 || first2 == 41 || second1 == 41 || second2 == 41) {
-                    PlaySound(amir);
-                }
             }
-            else if(!mahdud[1] && ((IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1)) {
+            else if(!mahdud[1] && (IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1) {
                 first2 += TAS;
                 again(1);
                 first2 += check_zarib(1);
@@ -439,13 +399,10 @@ int main() {
                 xfirst2 = pix[first2];
                 yfisrt2 = piy[first2];
                 raft = 1;
-                if (first1 == 41 || first2 == 41 || second1 == 41 || second2 == 41) {
-                    PlaySound(amir);
-                }
             }
         }
         else if(!raft){
-            if (!mahdud[2] && ((IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10)) {
+            if (!mahdud[2] && (IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10) {
                 second1 += TAS;
                 again(2);
                 second1 += check_zarib(2);
@@ -454,11 +411,8 @@ int main() {
                 xsecond1 = pix[second1];
                 ysecond1 = piy[second1];
                 raft = 1;
-                if (first1 == 41 || first2 == 41 || second1 == 41 || second2 == 41) {
-                    PlaySound(amir);
-                }
             }
-            else if(!mahdud[3] && ((IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1)) {
+            else if(!mahdud[3] && (IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1) {
                 second2 += TAS;
                 again(2);
                 second2 += check_zarib(2);
@@ -467,19 +421,16 @@ int main() {
                 xsecond2 = pix[second2];
                 ysecond2 = piy[second2];
                 raft = 1;
-                if (first1 == 41 || first2 == 41 || second1 == 41 || second2 == 41) {
-                    PlaySound(amir);
-                }
             }
         }
-
+        
         /////////////////////////////////////////////////////////////
-        FILE *inputfile;
+       /* FILE *inputfile;
         FILE *outputfile;
         inputfile = fopen("input.txt", "rt");
         outputfile = fopen("output.txt", "wt");
-        fprintf(outputfile, "%d %d %d %d %d", turn, first1, first2, second1, second2);
-        fclosall();
+        fprintf("outputfile", "%d %d %d %d %d", turn, first1, first2, second1, second2);
+        fclosall();*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         BeginDrawing();
         ClearBackground(RAYWHITE); //color(245, 245, 245, 255)
@@ -521,15 +472,12 @@ int main() {
         // premium
         DrawText("PREMIUM", 375, 567, 10, GRAY);
         EndDrawing();
-
     }
     UnloadTexture(board);
     UnloadTexture(sefid1);
     UnloadTexture(sefid2);
     UnloadTexture(siah1);
     UnloadTexture(siah2);
-    UnloadSound(amir);
-    CloseAudioDevice();
     CloseWindow();
     return 0; 
 }
