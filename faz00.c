@@ -19,7 +19,10 @@ int y_tas = 29;
 
 int TAS = 0, turn = -1;
 
-int Fcard[4], Scard[4];
+int Fcard[4] = {3, 3, 3, 3}, Scard[4] = {3, 3, 3, 3};
+bool c1[4], c2[4], mahdud[4];
+
+bool isp = 0;
 
 int tas() {
     int arr[6], T;
@@ -110,6 +113,17 @@ int check(int x, int sw) {
 }
 
 void checktale(int x, int k) {
+    // ro tale bashe hatman
+    if (k < 3 && Fcard[0] && c1[0]) {
+        Fcard[0]--;
+        c1[0] = 0;
+        return;
+    }
+    if (k > 2 && Scard[0] && c2[0]) {
+        Scard[0]--;
+        c2[0] = 0;
+        return;
+    }
     if (x == 4) {
         if (k == 1) {
             first1 = 62;
@@ -239,8 +253,61 @@ void set_card(int poss, int who) {
     }
 }
 
-void checkcard() {
+int check_zarib(int who) {
+    if (who == 1) {
+        if (Fcard[1] && c1[1]) {
+            Fcard[1]--;
+            c1[1] = 0;
+            return TAS;       
+        }
+        else {
+            return 0;
+        }
+    }
+    else {
+        if (Scard[1] && c2[1]) {
+            Scard[1]--;
+            c2[1] = 0;
+            return TAS;       
+        }
+        else {
+            return 0;
+        }
+    }
+}
 
+void again(int who) {
+    if (who == 1) {
+        if (Fcard[2] && c1[2]) {
+            Fcard[2]--;
+            c1[2] = 0;
+            TAS = tas();  
+        }
+    }
+    else {
+        if (Scard[2] && c2[2]) {
+            Scard[2]--;
+            c2[2] = 0;
+            TAS = tas();    
+        }
+    }
+}
+
+void mahdood(int who) {
+    if (who == 1) {
+        if (Fcard[3] && c1[3]) {
+            Fcard[3]--;
+            c1[3] = 0;
+            mahdud[1 + c1[3]] = 1;
+        }
+    }
+    else {
+        if (Scard[3] && c2[3]) {
+            Scard[3]--;
+            c2[3] = 0;
+            mahdud[-1 + c2[3]] = 1;   
+        }
+    }
 }
 
 int main() {
@@ -262,16 +329,42 @@ int main() {
         
         // premium
         if (GetMouseX() < 449 && GetMouseX() > 355 &&GetMouseY() < 580 && GetMouseY() > 550 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            sefid1 = LoadTexture("resources/sefidp.png"); 
-            sefid2 = LoadTexture("resources/sefidp.png"); 
-            siah1 = LoadTexture("resources/siahp.png"); 
-            siah2 = LoadTexture("resources/siahp.png");
+            if (!isp) {
+                sefid1 = LoadTexture("resources/sefidp.png"); 
+                sefid2 = LoadTexture("resources/sefidp.png"); 
+                siah1 = LoadTexture("resources/siahp.png"); 
+                siah2 = LoadTexture("resources/siahp.png");
+                isp = 1;
+            }
+            else {
+                sefid1 = LoadTexture("resources/sefid1.png"); 
+                sefid2 = LoadTexture("resources/sefid2.png"); 
+                siah1 = LoadTexture("resources/siah1.png"); 
+                siah2 = LoadTexture("resources/siah2.png");
+                isp = 0;
+            }
         }
-        // click on tas
         
+        //card1
+        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() > 17 &&GetMouseY() < 320 && GetMouseY() > 224 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c1[1] = 1;      
+        }
+        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 320 && GetMouseY() > 224 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c2[1] = 1;
+        }
+
+        //card2
+        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() > 17 &&GetMouseY() < 209 && GetMouseY() > 114 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c1[0] = 1;
+        }
+        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 209 && GetMouseY() > 114 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c2[0] = 1;
+        }
+
+        // click on tas
         if (GetMouseX() < 431 && GetMouseX() > 368 &&GetMouseY() < 90 && GetMouseY() > 27 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             raft = 0;
-            if (tas() == -3) {
+            /*if (tas() == -3) {
                 TAS = tas();
             }
             if (tas() == -2) {
@@ -288,23 +381,27 @@ int main() {
             }
             if (tas() == 3) {
                 TAS = tas();
-            }
+            }*/
+            TAS = tas();
             turn *= -1;
         }
 
         //kodom mohre
-        
         if (turn == 1 && !raft) {
-            if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
+            if (!mahdud[0] && (IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10) {
                 first1 += TAS;
+                again(1);
+                first1 += check_zarib(1);
                 checktale(first1, 1);
                 set_card(first1, 1);
                 xfirst1 = pix[first1];
                 yfisrt1 = piy[first1];
                 raft = 1;
             }
-            else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
+            else if(!mahdud[1] && (IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1) {
                 first2 += TAS;
+                again(1);
+                first2 += check_zarib(1);
                 checktale(first2, 2);
                 set_card(first2, 1);
                 xfirst2 = pix[first2];
@@ -313,16 +410,20 @@ int main() {
             }
         }
         else if(!raft){
-            if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
+            if (!mahdud[2] && (IsKeyPressed(KEY_A) && check(TAS, turn) == 11) || check(TAS, turn) == 10) {
                 second1 += TAS;
+                again(2);
+                second1 += check_zarib(2);
                 checktale(second1, 3);
                 set_card(second1, 2);
                 xsecond1 = pix[second1];
                 ysecond1 = piy[second1];
                 raft = 1;
             }
-            else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
+            else if(!mahdud[3] && (IsKeyPressed(KEY_B) && check(TAS, turn) == 11) || check(TAS, turn) == 1) {
                 second2 += TAS;
+                again(2);
+                second2 += check_zarib(2);
                 checktale(second2, 4);
                 set_card(second2, 2);
                 xsecond2 = pix[second2];
@@ -350,7 +451,7 @@ int main() {
         DrawTexture(siah2, xsecond2, ysecond2, WHITE);
 
         //nobat
-        if (turn == -1) {
+        if (turn == 1) {
             DrawText("WHITE :", 81, 48, 30, MAROON);
         }
         else {
