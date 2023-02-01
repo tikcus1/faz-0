@@ -107,6 +107,121 @@ int check(int x, int sw) {
     return cnt;
 }
 
+void checktale(int x, int k) {
+    if (x == 4) {
+        if (k == 1) {
+            first1 = 62;
+        }
+        if (k == 2) {
+            first2 = 62;
+        }
+        if (k == 3) {
+            second1 = 62;
+        }
+        if (k == 4) {
+            second2 = 62;
+        }
+    }
+    if (x == 11) {
+        if (k == 1) {
+            first1 = 49;
+        }
+        if (k == 2) {
+            first2 = 49;
+        }
+        if (k == 3) {
+            second1 = 49;
+        }
+        if (k == 4) {
+            second2 = 49;
+        }
+    }
+    if (x == 20) {
+        if (k == 1) {
+            first1 = 78;
+        }
+        if (k == 2) {
+            first2 = 78;
+        }
+        if (k == 3) {
+            second1 = 78;
+        }
+        if (k == 4) {
+            second2 = 78;
+        }
+    }
+    if (x == 33) {
+        if (k == 1) {
+            first1 = 71;
+        }
+        if (k == 2) {
+            first2 = 71;
+        }
+        if (k == 3) {
+            second1 = 71;
+        }
+        if (k == 4) {
+            second2 = 71;
+        }
+    }
+    if (x == 62) {
+        if (k == 1) {
+            first1 = 4;
+        }
+        if (k == 2) {
+            first2 = 4;
+        }
+        if (k == 3) {
+            second1 = 4;
+        }
+        if (k == 4) {
+            second2 = 4;
+        }
+    }
+    if (x == 49) {
+        if (k == 1) {
+            first1 = 11;
+        }
+        if (k == 2) {
+            first2 = 11;
+        }
+        if (k == 3) {
+            second1 = 11;
+        }
+        if (k == 4) {
+            second2 = 11;
+        }
+    }
+    if (x == 78) {
+        if (k == 1) {
+            first1 = 20;
+        }
+        if (k == 2) {
+            first2 = 20;
+        }
+        if (k == 3) {
+            second1 = 20;
+        }
+        if (k == 4) {
+            second2 = 20;
+        }
+    }
+    if (x == 71) {
+        if (k == 1) {
+            first1 = 33;
+        }
+        if (k == 2) {
+            first2 = 33;
+        }
+        if (k == 3) {
+            second1 = 33;
+        }
+        if (k == 4) {
+            second2 = 33;
+        }
+    }
+}
+
 int main() {
     const int windowwidth = 800;
     const int windowheight = 600;
@@ -121,7 +236,7 @@ int main() {
     Texture2D siah1 = LoadTexture("resources/siah1.png"); 
     Texture2D siah2 = LoadTexture("resources/siah2.png"); 
     set_pos();
-
+    bool raft = 1;
     while(!WindowShouldClose()) {
         
         // premium
@@ -132,7 +247,9 @@ int main() {
             siah2 = LoadTexture("resources/siahp.png");
         }
         // click on tas
+        
         if (GetMouseX() < 431 && GetMouseX() > 368 &&GetMouseY() < 90 && GetMouseY() > 27 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            raft = 0;
             if (tas() == -3) {
                 TAS = tas();
             }
@@ -155,37 +272,47 @@ int main() {
         }
 
         //kodom mohre
-        if (turn == 1) {
+        
+        if (turn == 1 && !raft) {
             if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
                 first1 += TAS;
+                checktale(first1, 1);
                 xfirst1 = pix[first1];
                 yfisrt1 = piy[first1];
+                raft = 1;
             }
             else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
                 first2 += TAS;
+                checktale(first2, 2);
                 xfirst2 = pix[first2];
                 yfisrt2 = piy[first2];
+                raft = 1;
             }
         }
-        else {
+        else if(!raft){
             if (IsKeyPressed(KEY_A) || check(TAS, turn) == 10) {
                 second1 += TAS;
+                checktale(second1, 3);
                 xsecond1 = pix[second1];
                 ysecond1 = piy[second1];
+                raft = 1;
             }
             else if(IsKeyPressed(KEY_B) || check(TAS, turn) == 1) {
                 second2 += TAS;
+                checktale(second2, 4);
                 xsecond2 = pix[second2];
                 ysecond2 = piy[second2];
+                raft = 1;
             }
         }
+        
         /////////////////////////////////////////////////////////////
-        FILE *inputfile;
+       /* FILE *inputfile;
         FILE *outputfile;
         inputfile = fopen("input.txt", "rt");
         outputfile = fopen("output.txt", "wt");
         fprintf("outputfile", "%d %d %d %d %d", turn, first1, first2, second1, second2);
-        fclosall();
+        fclosall();*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         BeginDrawing();
         ClearBackground(RAYWHITE); //color(245, 245, 245, 255)
