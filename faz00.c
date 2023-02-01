@@ -368,6 +368,45 @@ int main() {
         if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() > 635 &&GetMouseY() < 430 && GetMouseY() > 334 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
             c2[2] = 1;
         }
+        
+        //card4
+        if (/*turn == 1 &&*/ GetMouseX() < 88 && GetMouseX() > 17 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c1[3] = 1;
+        }
+        if (/*turn == 1 &&*/ GetMouseX() < 162 && GetMouseX() >= 88 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c1[3] = 2;
+        }
+        if (/*turn == -1 &&*/ GetMouseX() < 710 && GetMouseX() > 635 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c2[3] = 1;
+        }
+        if (/*turn == -1 &&*/ GetMouseX() < 783 && GetMouseX() >= 710 &&GetMouseY() < 543 && GetMouseY() > 447 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            c2[3] = 2;
+        }
+
+        // click on tas
+        if (GetMouseX() < 431 && GetMouseX() > 368 &&GetMouseY() < 90 && GetMouseY() > 27 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            raft = 0;
+            /*if (tas() == -3) {
+                TAS = tas();
+            }
+            if (tas() == -2) {
+                TAS = tas();
+            }
+            if (tas() == -1) {
+                TAS = tas();
+            }
+            if (tas() == 1) {
+                TAS = tas();
+            }
+            if (tas() == 2) {
+                TAS = tas();
+            }
+            if (tas() == 3) {
+                TAS = tas();
+            }*/
+            TAS = tas();
+            turn *= -1;
+        }
 
         //kodom mohre
         if (turn == 1 && !raft) {
@@ -472,3 +511,4 @@ int main() {
     CloseWindow();
     return 0; 
 }
+
