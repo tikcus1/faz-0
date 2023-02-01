@@ -1,81 +1,93 @@
-/*******************************************************************************************
-*
-*   raylib [textures] example - Texture loading and drawing
-*
-*   Example originally created with raylib 1.0, last time updated with raylib 1.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2014-2022 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+#include<raylib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
 
-#include "raylib.h"
+int xfirst1 = 194, yfisrt1 = 490;
+int xfirst2 = 194, yfisrt2 = 490;
+int xsecond1 = 572, ysecond1 = 114;
+int xsecond2 = 572, ysecond2 = 114;
 
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-int main(void)
-{
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+int x_tas = 371;
+int y_tas = 29;
 
-    InitWindow(screenWidth, screenHeight, "BOARD GAME");
-    Vector2 ballPosition = { (float)screenWidth/screenWidth + 110, (float)screenHeight - 35 };
-    float rotation = 0.0f;
-    SetTargetFPS(60);   
-
-    // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Texture2D texture = LoadTexture("resources/BORD_B.png");        // Texture loading
-    //---------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
-        if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
-        if (IsKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
-        if (IsKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
-        rotation += 0.2f;
-        BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            DrawTexture(texture, screenWidth/2 - texture.width/2, screenHeight/2 - texture.height/2, WHITE);
-
-            //DrawText("this IS a texture!", 360, 370, 10, GRAY);
-            ClearBackground(RAYWHITE);
-
-            //DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
-
-            DrawCircleV(ballPosition, 20, MAROON);
-        
-            DrawCircle(110, 427, 20, PINK);
-            DrawCircle(screenWidth - 90, 27, 20, SKYBLUE);
-            DrawCircle(screenWidth - 80, 27, 20, DARKBLUE);
-            //DrawCircleGradient(screenWidth/5, 220, 60, GREEN, SKYBLUE);
-            //DrawCircleLines(screenWidth/5, 340, 80, DARKBLUE);
-            
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+int tas() {
+    int arr[6], T;
+    for (int i = 0; i < 3; i++) {
+        arr[i] = -3 + i;
     }
+    for (int i = 3; i < 6; i++) {
+        arr[i] = -2 + i;
+    }
+    /*for (int i = 0; i < 6; i++) {
+        printf("%d ", arr[i]);
+    }*/
+    srand(time(0));
+    T = rand();
+    return arr[T % 6];
+}
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+int main() {
+    const int windowwidth = 800;
+    const int windowheight = 600;
+    
+    InitWindow(windowwidth, windowheight, "my game");
+    SetTargetFPS(60);
+    
+    Texture2D board = LoadTexture("resources/final_board.png"); 
 
-    CloseWindow();                // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    Texture2D first1 = LoadTexture("resources/rsz_sefid.png"); 
+    Texture2D first2 = LoadTexture("resources/rsz_sefid.png"); 
+    Texture2D second1 = LoadTexture("resources/rsz_siah.png"); 
+    Texture2D second2 = LoadTexture("resources/rsz_siah.png"); 
 
-    return 0;
+    int TAS = 0, turn = 1;
+
+    while(!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE); //color(245, 245, 245, 255)
+        DrawTexture(board, windowwidth/2 - board.width/2, windowheight/2 - board.height/2, WHITE);
+        
+        DrawTexture(first1, xfirst1, yfisrt1, WHITE);
+        DrawTexture(first2, xfirst2, yfisrt2, WHITE);
+        DrawTexture(second1, xsecond1, ysecond1, WHITE);
+        DrawTexture(second2, xsecond2, ysecond2, WHITE);
+
+        if (GetMouseX() < 431 && GetMouseX() > 368 &&GetMouseY() < 90 && GetMouseY() > 27 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            if (tas() == -3) {
+                TAS = tas();
+            }
+            if (tas() == -2) {
+                TAS = tas();
+            }
+            if (tas() == -1) {
+                TAS = tas();
+            }
+            if (tas() == 1) {
+                TAS = tas();
+            }
+            if (tas() == 2) {
+                TAS = tas();
+            }
+            if (tas() == 3) {
+                TAS = tas();
+            }
+            turn *= -1;
+        }
+        if (turn == 1) {
+            DrawText("WHITE :", 81, 48, 30, MAROON);
+        }
+        else {
+            DrawText("BLACK :", 81, 48, 30, MAROON);
+        }
+        DrawText(TextFormat("%i", TAS), 387, 37, 40, BLACK);
+        EndDrawing();
+    }
+    UnloadTexture(board);
+    UnloadTexture(first1);
+    UnloadTexture(first2);
+    UnloadTexture(second1);
+    UnloadTexture(second2);
+    CloseWindow();
+    return 0; 
 }
